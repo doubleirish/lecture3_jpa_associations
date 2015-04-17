@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+
+<!--<jdbc:embedded-database id="dataSource" type="DERBY"  >-->
+    <!--<jdbc:script location="classpath:user_create.sql"/>-->
+    <!--<jdbc:script location="classpath:user_insert.sql"/>-->
+<!--</jdbc:embedded-database>-->
+
+
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+        <property name="url" value="jdbc:derby:tempDb;create=true"/>
+        <property name="username"  value="app"/>
+        <property name="password" value="app"/>
+    </bean>
+
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
+        <jdbc:script location="classpath:user_drop.sql" />
+        <jdbc:script location="classpath:user_create.sql" />
+        <jdbc:script location="classpath:user_insert.sql" />
+    </jdbc:initialize-database>
+
+</beans>
